@@ -1,0 +1,68 @@
+html,
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+.main-title {
+    align-self: center;
+    display: flex;
+    font-weight: 700;
+    justify-content: center;
+    margin: 0;
+}
+
+.main-subtitle {
+    align-self: center;
+    display: flex;
+    font-weight: 500;
+    margin: 0;
+}
+
+.bg {
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-image: url("../../images/bg.jpg");
+    background-position: center center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    filter: opacity(0.85) saturate(0.7);
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    width: 100vw;
+    z-index: -100;
+}
+
+.nav-custom {
+    background-color: #eceff1;
+    height: 60px;
+    z-index: 1;
+}
+
+.card-custom {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    border: 0;
+    box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.25);
+}
+
+table th,
+td {
+    vertical-align: middle;
+}
+
+.textarea-custom {
+    resize: none;
+}
+
+.bg-rectificar {
+    background-color: #f8c291;
+}
+
+.bg-detail {
+    background-color: #b8e994;
+}

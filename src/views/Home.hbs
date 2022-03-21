@@ -1,0 +1,18 @@
+{{!-- ADMIN --}}
+{{#if isAdmin }}
+<h2 class='main-title'>MENÚ ESCOLAR ADMIN</h2>
+<hr class='mb-4' />
+{{> OrderAdmin}}
+{{/if}}
+
+{{!-- USER --}}
+{{#if isUser }}
+<h2 class='main-title'>MENÚ ESCOLAR</h2>
+<hr class='mb-4' />
+{{> OrderUser}}
+{{/if}}
+
+{{!-- LOGIN --}}
+{{#unless isLogined }}
+{{> Footer}}
+{{/unless}}

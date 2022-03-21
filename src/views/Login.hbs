@@ -1,0 +1,72 @@
+<div class='position-relative h-100 d-flex justify-content-center align-items-center'>
+    <div class='card col-md-3 col-4 p-4 card-custom'>
+        <div class='card-body'>
+            <h2 class='card-title text-center mb-4'>Iniciar sesión</h2>
+            <hr class='mb-5 m-auto' />
+
+            <form onsubmit='event.preventDefault();'>
+                <div class='form-group'>
+                    <div class='form-group'>
+                        <label>Correo</label>
+                        <input class='form-control mb-3' id='email' required />
+                    </div>
+                    <div class='form-group'>
+                        <label>Contraseña</label>
+                        <input type='password' class='form-control mb-3' id='password' required />
+                    </div>
+                </div>
+                <button class="btn btn-primary mb-3 w-100" onclick='verificacion()'>Ingresar</button>
+                <p>¿Aún no tienes cuenta? <a href='/signup'>Regístrate</a></p>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // verify
+    const verificacion = async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const payload = { email, password };
+        console.log(payload)
+
+        try {
+            const { data } = await axios.post('/verify', payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Verificación Existosa',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            }).then(() => {
+                const { token, user } = data;
+                console.log(user[0].nombre);
+                console.log(user[0].id);
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('username', user[0].nombre);
+                sessionStorage.setItem('schoolId', user[0].id);
+
+                // redirect
+                window.location.href = `/`
+            });
+
+        } catch ({ response }) {
+            const { data } = response;
+            const { error } = data;
+            // alert
+            Swal.fire({
+                title: error,
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        };
+    };
+</script>

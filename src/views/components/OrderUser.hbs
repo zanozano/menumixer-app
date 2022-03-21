@@ -1,0 +1,120 @@
+<div class="d-flex justify-content-between mb-4">
+    <h3 class="main-subtitle">PEDIDOS</h3>
+    <button class="btn btn-primary" onclick='newOder()'>Nuevo Pedido</button>
+</div>
+
+{{>Card}}
+
+<table class="table m-0">
+    <thead>
+        <tr>
+            <th scope='col'>Fecha</th>
+            <th scope='col'>M1</th>
+            <th scope='col'>M2</th>
+            <th scope='col'>M3</th>
+            <th scope='col'>M4</th>
+            <th scope='col'>M5</th>
+            <th scope='col'>ACCIÓN</th>
+        </tr>
+    </thead>
+    <tbody id='table-body'>
+        {{!-- content --}}
+    </tbody>
+</table>
+<script>
+    // html id
+    const tableBody = document.getElementById("table-body");
+
+    // schools
+    const getSchools = async () => {
+        const response = await fetch("http://localhost:3000/schools");
+        return response.json();
+    }
+    // search products
+    const searchSchools = async (school) => {
+        const response = await fetch(`http://localhost:3000/orders/search`, {
+            method: "POST",
+            body: JSON.stringify({ school }),
+            headers: { "content-type": "application/json" }
+        });
+        return response.json();
+    }
+
+    // get verify
+    const getVerify = (id) => {
+        window.location.href = `/orders/rectify/${id}`
+    }
+
+    //render elements
+    const renderOrders = async () => {
+        const schoolId = sessionStorage.getItem('schoolId');
+        // orders
+        const result = await searchSchools(schoolId);
+        tableBody.innerHTML = "";
+
+        result.forEach(item => {
+            let trElement = document.createElement('tr');
+            // create headers
+            let dateElement = document.createElement('td');
+            let orderM1Element = document.createElement('td');
+            let orderM2Element = document.createElement('td');
+            let orderM3Element = document.createElement('td');
+            let orderM4Element = document.createElement('td');
+            let orderM5Element = document.createElement('td');
+            let actionElement = document.createElement('td');
+
+            // create button element
+            let buttonElement = document.createElement('button');
+
+            // info element
+            dateElement.innerText = moment(item.date).format('DD/MM/YYYY');
+            orderM1Element.innerText = item.vegetarian;
+            orderM2Element.innerText = item.celiac;
+            orderM3Element.innerText = item.standard;
+            orderM4Element.innerText = item.caloric;
+            orderM5Element.innerText = item.ethnic;
+
+            if (item.is_rectified === true) {
+                // button info element
+                buttonElement.classList.add("btn", "btn-success");
+                buttonElement.innerText = 'Ver Detalle';
+                trElement.classList.add('bg-detail')
+            } else {
+                // button info element
+                trElement.classList.add('bg-rectificar');
+                if (item.id) {
+                    buttonElement.classList.add("btn", "btn-danger");
+                    buttonElement.addEventListener('click', function () { getVerify(item.id) });
+                    buttonElement.innerText = 'Rectificar';
+                } else {
+
+                    buttonElement.innerText = 'Pendiente';
+
+                    buttonElement.classList.add("btn", "btn-secondary", 'disabled');
+                }
+
+            }
+            actionElement.appendChild(buttonElement);
+
+            // tr elements
+            trElement.appendChild(dateElement);
+            trElement.appendChild(orderM1Element);
+            trElement.appendChild(orderM2Element);
+            trElement.appendChild(orderM3Element);
+            trElement.appendChild(orderM4Element);
+            trElement.appendChild(orderM5Element);
+            trElement.appendChild(actionElement);
+            tableBody.appendChild(trElement);
+        });
+    }
+
+    // promise all
+    (async () => {
+        const render = await Promise.all([getSchools(), renderOrders()]);
+    })();
+
+
+    const newOder = async () => {
+        window.location.href = `/orders/new`
+    };
+</script>

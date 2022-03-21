@@ -1,0 +1,172 @@
+<div class="d-flex justify-content-between mb-4">
+    <h2>Nuevo Pedido</h2>
+    <button class="btn btn-primary" onclick='newOder()'>Nuevo Pedido</button>
+</div>
+{{>Card}}
+<div>
+    <h2>Filtro</h2>
+    <div class="d-flex gap-5 mb-4">
+
+        <div class="d-flex align-items-center gap-3">
+            <label for="schools">Escuelas</label>
+            <select id="schools-select" class="form-select" aria-label="Select School">
+                <option value="">Seleccione</option>
+            </select>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <label for="date-from">Desde</label>
+            <input type="date" class="form-control" aria-label="FechaDesde" aria-describedby="Select Date From"
+                id='dateFrom-select'>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <label for="date-until">Hasta</label>
+            <input type="date" class="form-control" aria-label="FechaHasta" aria-describedby="Select Date Until"
+                id='dateUntil-select'>
+        </div>
+        <button id="search" class="btn btn-primary">Filtrar</button>
+    </div>
+</div>
+
+<table class="table m-0">
+    <thead>
+        <tr>
+            <th scope='col'>Fecha</th>
+            <th scope='col'>Escuela</th>
+            <th scope='col'>M1</th>
+            <th scope='col'>M2</th>
+            <th scope='col'>M3</th>
+            <th scope='col'>M4</th>
+            <th scope='col'>M5</th>
+            <th scope='col'>ACCIÓN</th>
+        </tr>
+    </thead>
+    <tbody id='table-body'>
+        {{!-- content --}}
+    </tbody>
+</table>
+<script>
+
+    //La pantalla de Home (ruta: /) debe contener un enlace al formulario para la creación de un nuevo pedido, además de una tabla que permita a los liceos ver la lista completa de sus pedidos, independiente de en qué estado estén (rectificados o no). Acá los liceos deben poder los siguientes datos por cada pedido:
+
+    // Fecha del pedido
+    // Número de menús de cada opción
+    // Estado(puede un fondo de color verde claro para los pedidos no rectificados, y color naranjo para los pedidos ya rectificados)
+    // En el caso de los pedidos no rectificados, un enlace al formulario de rectificación
+    // En el caso de los pedidos rectificados, un enlace para ver el detalle del pedido.
+
+
+    // html id
+    const schoolsSelect = document.getElementById("schools-select");
+    const datefromSelect = document.getElementById("dateFrom-select");
+    const dateUntilSelect = document.getElementById("dateUntil-select");
+    const searchButton = document.getElementById("search");
+    const tableBody = document.getElementById("table-body");
+
+    // schools
+    const getSchools = async () => {
+        const response = await fetch("http://localhost:3000/schools");
+        return response.json();
+    }
+    // search products
+    const searchSchools = async (school, from, until) => {
+        const response = await fetch(`http://localhost:3000/orders/search`, {
+            method: "POST",
+            body: JSON.stringify({ school, from, until }),
+            headers: { "content-type": "application/json" }
+        });
+        return response.json();
+    }
+
+    // get verify
+    const getVerify = (id) => {
+        window.location.href = `/orders/${id}/rectify`
+    }
+
+
+    //render elements
+    const renderOrders = async () => {
+
+        // orders
+        const result = await searchSchools(schoolsSelect.value, datefromSelect.value, dateUntilSelect.value);
+        tableBody.innerHTML = "";
+
+        result.forEach(item => {
+            let trElement = document.createElement('tr');
+            // create headers
+            let dateElement = document.createElement('td');
+            let schoolsElement = document.createElement('td');
+            let orderM1Element = document.createElement('td');
+            let orderM2Element = document.createElement('td');
+            let orderM3Element = document.createElement('td');
+            let orderM4Element = document.createElement('td');
+            let orderM5Element = document.createElement('td');
+            let actionElement = document.createElement('td');
+
+            // create button element
+            let buttonElement = document.createElement('button');
+
+            // info element
+            dateElement.innerText = item.date;
+            schoolsElement.innerText = item.nombre;
+            orderM1Element.innerText = item.vegetarian;
+            orderM2Element.innerText = item.celiac;
+            orderM3Element.innerText = item.standard;
+            orderM4Element.innerText = item.caloric;
+            orderM5Element.innerText = item.ethnic;
+
+            if (item.is_rectified === true) {
+                // button info element
+                buttonElement.classList.add("btn", "btn-success");
+                buttonElement.innerText = 'Ver Detalle';
+                trElement.classList.add('bg-detail')
+            } else {
+                // button info element
+                trElement.classList.add('bg-rectificar');
+                if (item.id) {
+                    buttonElement.classList.add("btn", "btn-danger");
+                    buttonElement.addEventListener('click', function () { getVerify(item.id) });
+                    buttonElement.innerText = 'Rectificar';
+                } else {
+
+                    buttonElement.innerText = 'Pendiente';
+
+                    buttonElement.classList.add("btn", "btn-secondary", 'disabled');
+                }
+
+            }
+            actionElement.appendChild(buttonElement);
+
+            // tr elements
+            trElement.appendChild(dateElement);
+            trElement.appendChild(schoolsElement);
+            trElement.appendChild(orderM1Element);
+            trElement.appendChild(orderM2Element);
+            trElement.appendChild(orderM3Element);
+            trElement.appendChild(orderM4Element);
+            trElement.appendChild(orderM5Element);
+            trElement.appendChild(actionElement);
+            tableBody.appendChild(trElement);
+        });
+    }
+
+    // promise all
+    (async () => {
+        const [schools] = await Promise.all([getSchools(), renderOrders()]);
+
+        schools.forEach((item) => {
+            let option = document.createElement('option');
+            option.value = item.id;
+            option.innerHTML = item.nombre;
+            schoolsSelect.appendChild(option);
+        });
+    })()
+    searchButton.addEventListener("click", async () => await renderOrders());
+
+
+    const newOder = async () => {
+        window.location.href = `/orders/new`
+    };
+    const rectify = async () => {
+        window.location.href = `/rectify/:id_pedido/rectify`
+    };
+</script>

@@ -1,0 +1,108 @@
+<form onsubmit='event.preventDefault();' class="m-0">
+    <div class="d-flex justify-content-between mb-4 flex-wrap">
+        <h3 class="main-subtitle">NUEVO PEDIDO</h3>
+    </div>
+
+    <div class="card col-12 card-custom mb-4">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between flex-wrap gap-4">
+                <div class="d-flex flex-column align-items-center">
+                    <img class="m-3" src="../../images/vegetarian.png" width="60px" alt="vegetarian">
+                    <p class="m-0"><b>M1</b></p>
+                    <p>Vegetariano</p>
+                    <input type="number" class="form-control" placeholder="Cantidad" aria-label="Vegetarian"
+                        aria-describedby="basic-addon1" id='vegetarian' required />
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img class="m-3" src="../../images/celiac.png" width="60px" alt="celiac">
+                    <p class="m-0"><b>M2</b></p>
+                    <p>Celiaco</p>
+                    <input type="number" class="form-control" placeholder="Cantidad" aria-label="Celiac"
+                        aria-describedby="basic-addon1" id='celiac' required />
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img class="m-3" src="../../images/standard.png" width="60px" alt="standard">
+                    <p class="m-0"><b>M3</b></p>
+                    <p>Estándar</p>
+                    <input type="number" class="form-control" placeholder="Cantidad" aria-label="Standard"
+                        aria-describedby="basic-addon1" id='standard' required />
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img class="m-3" src="../../images/caloric.png" width="60px" alt="caloric">
+                    <p class="m-0"><b>M4</b></p>
+                    <p>Calórico</p>
+                    <input type="number" class="form-control" placeholder="Cantidad" aria-label="Caloric"
+                        aria-describedby="basic-addon1" id='caloric' required />
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img class="m-3" src="../../images/ethnic.png" width="60px" alt="Ethnic">
+                    <p class="m-0"><b>M5</b></p>
+                    <p>Autóctono</p>
+                    <input type="number" class="form-control" placeholder="Cantidad" aria-label="Ethnic"
+                        aria-describedby="basic-addon1" id='ethnic' required />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="d-flex gap-3 justify-content-end">
+        <div class="d-flex align-items-center gap-3">
+            <label for="fecha">Fecha</label>
+            <input type="date" class="form-control" aria-label="Fecha" aria-describedby="basic-addon1" id='date'
+                required>
+        </div>
+        <button class="btn btn-primary" onclick='register()'>Agregar</button>
+    </div>
+
+</form>
+<script>
+    //school ID
+    const schoolId = sessionStorage.getItem('schoolId');
+    // register order
+    const register = async () => {
+        const date = document.getElementById('date').value;
+        const vegetarian = document.getElementById('vegetarian').value;
+        const celiac = document.getElementById('celiac').value;
+        const standard = document.getElementById('standard').value;
+        const caloric = document.getElementById('caloric').value;
+        const ethnic = document.getElementById('ethnic').value;
+
+        const payload = { schoolId, date, vegetarian, celiac, standard, caloric, ethnic };
+
+        try {
+            const addOrder = await axios.post('/orders/new', payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Creación de order existosa',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            }).then(() => {
+                // redirect
+                window.location.href = `/`
+            });
+
+        } catch ({ response }) {
+            console.log('error', response);
+            const { data } = response;
+            const { error } = data;
+            // alert
+            Swal.fire({
+                title: error,
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        };
+
+
+
+    };
+</script>
