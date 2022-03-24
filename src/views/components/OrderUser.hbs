@@ -27,12 +27,12 @@
 
     // schools
     const getSchools = async () => {
-        const response = await fetch("http://localhost:3000/schools");
+        const response = await fetch("/schools");
         return response.json();
     }
     // search products
     const searchSchools = async (school) => {
-        const response = await fetch(`http://localhost:3000/orders/search`, {
+        const response = await fetch(`/orders/search`, {
             method: "POST",
             body: JSON.stringify({ school }),
             headers: { "content-type": "application/json" }
