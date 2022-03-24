@@ -30,6 +30,7 @@
         const response = await fetch("/schools");
         return response.json();
     }
+
     // search products
     const searchSchools = async (school) => {
         const response = await fetch(`/orders/search`, {
@@ -110,7 +111,7 @@
 
     // promise all
     (async () => {
-        const render = await Promise.all([getSchools(), renderOrders()]);
+        const render = await Promise.all([renderOrders()]);
     })();
 
 

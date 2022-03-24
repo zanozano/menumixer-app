@@ -45,16 +45,6 @@
     </tbody>
 </table>
 <script>
-
-    //La pantalla de Home (ruta: /) debe contener un enlace al formulario para la creación de un nuevo pedido, además de una tabla que permita a los liceos ver la lista completa de sus pedidos, independiente de en qué estado estén (rectificados o no). Acá los liceos deben poder los siguientes datos por cada pedido:
-
-    // Fecha del pedido
-    // Número de menús de cada opción
-    // Estado(puede un fondo de color verde claro para los pedidos no rectificados, y color naranjo para los pedidos ya rectificados)
-    // En el caso de los pedidos no rectificados, un enlace al formulario de rectificación
-    // En el caso de los pedidos rectificados, un enlace para ver el detalle del pedido.
-
-
     // html id
     const schoolsSelect = document.getElementById("schools-select");
     const datefromSelect = document.getElementById("dateFrom-select");
@@ -67,6 +57,7 @@
         const response = await fetch("/schools");
         return response.json();
     }
+
     // search products
     const searchSchools = async (school, from, until) => {
         const response = await fetch(`/orders/search`, {
@@ -81,7 +72,6 @@
     const getVerify = (id) => {
         window.location.href = `/orders/${id}/rectify`
     }
-
 
     //render elements
     const renderOrders = async () => {
@@ -165,8 +155,5 @@
 
     const newOder = async () => {
         window.location.href = `/orders/new`
-    };
-    const rectify = async () => {
-        window.location.href = `/rectify/:id_pedido/rectify`
     };
 </script>
