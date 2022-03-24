@@ -25,13 +25,13 @@
 <body>
 	{{!-- BODY --}}
 	<div class='d-flex flex-column align-content-center mb-5'>
+		{{!-- BG --}}
+		<div class="bg"></div>
 		{{!-- NAVBAR --}}
 		{{#if isLogined }}
 		{{> Navbar}}
 		{{/if}}
-		{{!-- BG --}}
-		<div class="bg"></div>
-		<div class='container mt-5 p-4 card-custom'>
+		<div class='container mt-5 p-4 card-custom mx-auto'>
 			{{{body}}}
 		</div>
 	</div>

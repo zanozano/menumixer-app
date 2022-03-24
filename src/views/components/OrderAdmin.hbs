@@ -106,7 +106,7 @@
             let buttonElement = document.createElement('button');
 
             // info element
-            dateElement.innerText = item.date;
+            dateElement.innerText = moment(item.date).format('DD/MM/YYYY');
             schoolsElement.innerText = item.nombre;
             orderM1Element.innerText = item.vegetarian;
             orderM2Element.innerText = item.celiac;

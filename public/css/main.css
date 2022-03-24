@@ -30,16 +30,19 @@ body {
     background-repeat: repeat-y;
     background-size: cover;
     filter: opacity(0.85) saturate(0.7);
-    height: 100vh;
-    object-fit: cover;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     position: fixed;
-    width: 100vw;
+    width: 100%;
     z-index: -100;
 }
 
 .nav-custom {
     background-color: #eceff1;
     height: 60px;
+    margin: 0;
+    width: 100%;
     z-index: 1;
 }
 

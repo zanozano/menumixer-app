@@ -1,5 +1,3 @@
-//format date
-const { format } = require('date-fns');
 // dependencies
 const express = require('express');
 const app = express();
@@ -219,7 +217,7 @@ app.post('/verify', async (req, res) => {
 			};
 			token = jwt.sign(
 				{
-					data: user,
+					data: admin,
 				},
 				secretKey,
 				{
@@ -292,7 +290,7 @@ app.get('/logout', async (req, res) => {
 // register order
 app.post('/orders/new', verifyToken, async (req, res) => {
 	const { schoolId, date, vegetarian, celiac, standard, caloric, ethnic } = req.body;
-	console.log(date);
+
 	const orderId = Math.floor(Math.random() * 10000);
 
 	if (
