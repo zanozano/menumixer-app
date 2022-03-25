@@ -183,7 +183,8 @@ app.post('/register', async (req, res) => {
 		});
 	} else {
 		try {
-			const response = await createUser(nombre, email, password);
+			const userId = Math.floor(Math.random() * 10000);
+			const response = await createUser(userId, nombre, email, password);
 			res.status(201).send(response);
 		} catch (e) {
 			res.status(500).send({
