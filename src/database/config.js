@@ -1,7 +1,5 @@
-// dependencies
 const { Pool } = require('pg')
 
-// pool config
 const pool = new Pool({
 	host: 'ec2-44-194-92-192.compute-1.amazonaws.com',
 	port: 5432,

@@ -1,11 +1,12 @@
 {
-	"name": "menu-escolar",
-	"version": "1.0.0",
-	"description": "Prueba talento Digital",
+	"name": "school-menu-app",
+	"version": "2.0.0",
+	"description": "An application for effortlessly managing school menus using Handlebars as the template engine",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon src/index.js"
+		"start": "nodemon src/index.js",
+		"scss": "sass --watch public/scss/style.scss:public/css/style.css"
 	},
 	"author": "Critobal Manzano",
 	"license": "ISC",
@@ -20,6 +21,7 @@
 		"moment": "^2.29.1",
 		"nodemon": "^2.0.15",
 		"pg": "^8.7.3",
+		"scss": "^0.2.4",
 		"sweetalert2": "^11.4.4"
 	}
 }
