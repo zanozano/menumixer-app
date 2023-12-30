@@ -3,15 +3,18 @@ const app = express();
 
 let cors = require("cors");
 app.use(cors());
+const { verifyToken, secretKey } = require('./auth');
+const routes = require('./src/routes/index');
 
 // body-parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// token cofig
+
+
 const jwt = require('jsonwebtoken');
-const secretKey = 'SecretKey';
+
 
 //* import
 const admin = require('./src/clients/config.json');
@@ -27,12 +30,6 @@ const { updateOrder } = require('./src/services/updateOrder');
 require('dotenv').config();
 app.set('port', process.env.PORT || 3000);
 
-// start server
-app.listen(process.env.PORT, () => {
-	console.log(`Server running on port ${process.env.PORT} and PID: ${process.pid}`);
-});
-
-//--------------------------------------
 
 app.use(express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist/'));
@@ -43,83 +40,23 @@ app.use('/sweetalert2', express.static('node_modules/sweetalert2/dist/'));
 app.set('views', `${__dirname}/src/views`);
 
 
-// set handlebars
 app.set('view engine', '.hbs');
 
-// handlebars config
 const { engine } = require('express-handlebars');
 
 app.engine(
 	'hbs',
 	engine({
 		defaultLayout: 'main',
-		layoutsDir: `${__dirname}/src/views/layouts`, // Ajusta la ruta según tu estructura
+		layoutsDir: `${__dirname}/src/views/layouts`,
 		partialsDir: `${__dirname}/src/views/partials`,
 		extname: '.hbs',
 	})
 );
 
-
-//--------------------------------------
-
-//validate user
-let validateAccount = {
-	isLogined: false,
-	isAdmin: false,
-	isUser: false,
-	username: '',
-	id: '',
-};
-
-//token global
 let token = '';
 
-// verify token
-const verifyToken = (req, res, next) => {
-	// const token = req.body.token || req.query.token || req.token;
-	if (token === '') {
-		return res.status(403).render('Auth', { layout: 'verify' });
-	}
-	try {
-		const decoded = jwt.verify(token, secretKey);
-		req.user = decoded;
-	} catch (err) {
-		return res.status(401).send('Error');
-	}
-	return next();
-};
-
-//* VIEWS
-
-// root home
-app.get('/', (req, res) => {
-	res.render('Home', validateAccount);
-});
-
-// login
-app.get('/login', (req, res) => {
-	res.render('Login', { layout: 'verify' });
-});
-
-// signin
-app.get('/signup', (req, res) => {
-	res.render('Signup', { layout: 'verify' });
-});
-
-// new order
-app.get('/orders/new', verifyToken, (req, res) => {
-	res.render('NewOrder', validateAccount);
-});
-
-// orders
-app.get('/orders/:id', verifyToken, (req, res) => {
-	res.render('Orders', validateAccount);
-});
-
-// rectify
-app.get('/orders/rectify/:id', verifyToken, (req, res) => {
-	res.render('Rectify', validateAccount);
-});
+app.use('/', routes);
 
 // rectify
 app.put('/orders/rectify/:id', verifyToken, async (req, res) => {
@@ -145,12 +82,6 @@ app.put('/orders/rectify/:id', verifyToken, async (req, res) => {
 	}
 });
 
-// detail
-app.get('/orders/detail', (req, res) => {
-	res.render('Detail', validateAccount);
-});
-
-//* VIEWS
 
 //--------------------------------------
 
@@ -325,12 +256,9 @@ app.post('/orders/new', verifyToken, async (req, res) => {
 	}
 });
 
-// no auth
-app.get('/no_auth', (req, res) => {
-	res.render('Auth', { layout: 'verify' });
-});
 
-// default
-app.get('*', (req, res) => {
-	res.render('Error', { layout: 'verify' });
+
+
+app.listen(process.env.PORT, () => {
+	console.log(`Server running on port ${process.env.PORT} and PID: ${process.pid}`);
 });
