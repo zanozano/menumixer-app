@@ -1,14 +1,14 @@
-# School Menu App
+# MenuMixer
 
-![School Menu App](/public/images/favicon.png)
+![MenuMixer App](/public/images/favicon.png)
 
 ## Description
 
-The School Menu App is a user-friendly web application designed to streamline the management of school menus based on the choices made by administrators. This application is built using HTML, CSS, SCSS, and JavaScript. It leverages Express.js to create a server and define various CRUD routes. Additionally, it utilizes Express Handlebars to manage partial components, enhancing scalability. The application uses PostgreSQL as its database to store information about different menus. As a framework, Bootstrap is employed, along with other dependencies like SweetAlerts.
+MenuMixer App is a user-friendly web application designed to streamline the management of school menus based on the choices made by administrators. This application is built using HTML, CSS, SCSS, and JavaScript. It leverages Express.js to create a server and define various CRUD routes. Additionally, it utilizes Express Handlebars to manage partial components, enhancing scalability. The application uses PostgreSQL as its database to store information about different menus. As a framework, Bootstrap is employed, along with other dependencies like SweetAlerts.
 
 ## Table of Contents
 
-- [School Menu App](#school-menu-app)
+- [MenuMixer](#menumixer)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
@@ -39,7 +39,7 @@ Before getting started, make sure you have the following tools installed on your
 Clone this repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/zanozano/school-menu-app.git
+git clone https://github.com/zanozano/menumixer-app.git
 ```
 
 ### Install Dependencies
@@ -47,7 +47,7 @@ git clone https://github.com/zanozano/school-menu-app.git
 Once you have cloned the repository, navigate to the project folder and install the necessary dependencies:
 
 ```bash
-cd school-menu-app
+cd menumixer-app
 npm install
 ```
 
@@ -108,10 +108,10 @@ Author: Cristobal Manzano
 ## Repository
 
 - Type: Git
-- URL: [https://github.com/zanozano/school-menu-app](https://github.com/zanozano/school-menu-app)
+- URL: [https://github.com/zanozano/menumixer-app.git](https://github.com/zanozano/menumixer-app.git)
 
 ## Live Example
 
-See the School Menu App in action by visiting the following hosted link:
+See the MenuMixer App in action by visiting the following hosted link:
 
 [Live School Menu App](link-to-live-example.com)
