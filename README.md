@@ -1,6 +1,6 @@
 # MenuMixer
 
-![MenuMixer App](/public/images/favicon.png)
+![MenuMixer App](/public/images/favicon.svg)
 
 ## Description
 

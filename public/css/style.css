@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 /* Definimos las Custom properties */
 :root {
   /* Colores */
@@ -14,6 +15,7 @@
     --negro: #ececec;
   }
 }
+
 /* (Opcional) Configuramos si un usuario ha activado el modo alto contraste. (WD) */
 /* (Opcional) Desactivamos los animations en el caso de que el usuario haya configurado el modo sin animation */
 @media (prefers-reduced-motion: reduce) {
@@ -22,6 +24,7 @@
     transition: none !important;
   }
 }
+
 /* Reseteamos los margin y paddings de todas las etiquetas */
 *,
 *::before,
@@ -211,7 +214,7 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   -webkit-background-size: cover;
-  background-image: url("../../images/bg.jpg");
+  background-image: url("/images/bg.jpg");
   background-position: center center;
   background-repeat: repeat-y;
   background-size: cover;

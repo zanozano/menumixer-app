@@ -2,10 +2,10 @@
 	"name": "menumixer-app",
 	"version": "2.0.0",
 	"description": "An application for effortlessly managing school menus using Handlebars as the template engine",
-	"main": "src/sever.js",
+	"main": "sever.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon src/server.js",
+		"start": "nodemon server.js",
 		"scss": "sass --watch public/scss/style.scss:public/css/style.css"
 	},
 	"author": "Critobal Manzano",

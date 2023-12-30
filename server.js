@@ -14,14 +14,14 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'SecretKey';
 
 //* import
-const admin = require('./clients/config.json');
-const { validateUsers } = require('./services/validateUsers');
-const { getSchools } = require('./services/getSchools');
-const { createUser } = require('./services/createUser');
-const { addOrder } = require('./services/addOrder');
-const { getOrders } = require('./services/getOrders');
-const { searchSchools } = require('./services/searchSchools');
-const { updateOrder } = require('./services/updateOrder');
+const admin = require('./src/clients/config.json');
+const { validateUsers } = require('./src/services/validateUsers');
+const { getSchools } = require('./src/services/getSchools');
+const { createUser } = require('./src/services/createUser');
+const { addOrder } = require('./src/services/addOrder');
+const { getOrders } = require('./src/services/getOrders');
+const { searchSchools } = require('./src/services/searchSchools');
+const { updateOrder } = require('./src/services/updateOrder');
 
 // enviroment
 require('dotenv').config();
@@ -34,20 +34,14 @@ app.listen(process.env.PORT, () => {
 
 //--------------------------------------
 
-// public
-app.use(express.static('public'));
-
-// bootstrap
+app.use(express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist/'));
-
-// moment js
 app.use('/moment', express.static('node_modules/moment/'));
-
-// sweetalert2
 app.use('/sweetalert2', express.static('node_modules/sweetalert2/dist/'));
 
-// set views
-app.set('views', `${__dirname}/views`);
+
+app.set('views', `${__dirname}/src/views`);
+
 
 // set handlebars
 app.set('view engine', '.hbs');
@@ -59,11 +53,12 @@ app.engine(
 	'hbs',
 	engine({
 		defaultLayout: 'main',
-		layoutsDir: `${__dirname}/views/layouts`,
-		partialsDir: `${__dirname}/views/components`,
+		layoutsDir: `${__dirname}/src/views/layouts`, // Ajusta la ruta según tu estructura
+		partialsDir: `${__dirname}/src/views/partials`,
 		extname: '.hbs',
 	})
 );
+
 
 //--------------------------------------
 
