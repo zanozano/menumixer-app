@@ -1,6 +1,4 @@
---SCHOOLS
-
-CREATE DATABASE menuescolar;
+CREATE DATABASE menumixer;
 
 CREATE TABLE schools (
     id SERIAL PRIMARY KEY, 

@@ -1,6 +1,6 @@
-CREATE DATABASE menuescolar;
+CREATE DATABASE menumixer;
 
-\c menuescolar;
+\c menumixer;
 
 CREATE TABLE schools (
     id INT PRIMARY KEY, 
