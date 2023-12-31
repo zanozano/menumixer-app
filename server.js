@@ -1,49 +1,32 @@
 const express = require('express');
-const app = express();
-
-let cors = require("cors");
-app.use(cors());
-const { verifyToken, secretKey } = require('./auth');
-const routes = require('./src/routes/index');
-
-// body-parser
 const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
-
-//* import
+const { verifyToken, secretKey } = require('./auth');
 const admin = require('./src/clients/config.json');
+const routes = require('./src/routes/index');
 const { validateUsers } = require('./src/services/validateUsers');
 const { getSchools } = require('./src/services/getSchools');
 const { createUser } = require('./src/services/createUser');
-const { addOrder } = require('./src/services/addOrder');
-const { getOrders } = require('./src/services/getOrders');
-const { searchSchools } = require('./src/services/searchSchools');
-const { updateOrder } = require('./src/services/updateOrder');
+const { addOrder, getOrders, searchSchools, updateOrder } = require('./src/services');
 
-// enviroment
 require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.set('port', process.env.PORT || 3000);
-
-
 app.use(express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist/'));
 app.use('/moment', express.static('node_modules/moment/'));
 app.use('/sweetalert2', express.static('node_modules/sweetalert2/dist/'));
 
-
 app.set('views', `${__dirname}/src/views`);
-
-
 app.set('view engine', '.hbs');
 
 const { engine } = require('express-handlebars');
-
 app.engine(
 	'hbs',
 	engine({
@@ -58,7 +41,6 @@ let token = '';
 
 app.use('/', routes);
 
-// rectify
 app.put('/orders/rectify/:id', verifyToken, async (req, res) => {
 	const { schoolId, vegetarian, celiac, standard, caloric, ethnic, commets } = req.body;
 	const id = req.params.id;
@@ -216,12 +198,9 @@ app.get('/logout', async (req, res) => {
 	}
 });
 
-// register order
 app.post('/orders/new', verifyToken, async (req, res) => {
 	const { schoolId, date, vegetarian, celiac, standard, caloric, ethnic } = req.body;
-
 	const orderId = Math.floor(Math.random() * 10000);
-
 	if (
 		date === '' ||
 		vegetarian === '' ||
@@ -255,9 +234,6 @@ app.post('/orders/new', verifyToken, async (req, res) => {
 		}
 	}
 });
-
-
-
 
 app.listen(process.env.PORT, () => {
 	console.log(`Server running on port ${process.env.PORT} and PID: ${process.pid}`);
